@@ -227,9 +227,11 @@ export const windowSlice = createSlice({
                     window.open('https://api.whatsapp.com/send/?phone=%2B918303006600&text&type=phone_number&app_absent=0', '_blank')
                     return
                 case 'My Resume':
+                    state.minimizeWindowArray = [...new Set([...state.minimizeWindowArray, action.payload])];
                     state.resumeWindow = true
                     return
                 case 'Command Prompt':
+                    state.minimizeWindowArray = [...new Set([...state.minimizeWindowArray, action.payload])];
                     state.commandPromptWindow = true
                     return
                 default:
