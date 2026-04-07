@@ -1,4 +1,4 @@
-import {  Stack} from "@mui/material"
+import { Stack } from "@mui/material"
 import github from '../../assets/github.png'
 import linkedinIcon from '../../assets/linkedIn.png'
 import whatsappIcon from '../../assets/whatsapp.png'
@@ -7,20 +7,20 @@ import cplusplusIcon from '../../assets/Cplusplus.png'
 import pythonIcon from '../../assets/pythoncli.png'
 import golangIcon from '../../assets/golang.webp'
 import typescriptIcon from '../../assets/typescript.png'
-import javascript from '../../assets/javascipt.png'
 import reactIcon from '../../assets/react.svg'
-import reduxIcon from '../../assets/redux.png'
-import reactNative from '../../assets/react.svg'
-import nextjsIcon from '../../assets/nextjs.png'
-import djangoIcon from '../../assets/djnago.png'
-import fastapiIcon from '../../assets/nextjs.png'
-import materialUIIcon from '../../assets/materialUI.png'
-import tailwindcssIcon from '../../assets/tailwindcss.png'
+import fastapiIcon from '../../assets/fastapi.png'
+import sqlIcon from '../../assets/sql.png'
+import pytorchIcon from '../../assets/pytorch.png'
+import scikitLearnIcon from '../../assets/Scikit-learn.png'
+import langchainIcon from '../../assets/langchain.webp'
+import huggingFaceIcon from '../../assets/huggingface.webp'
+import numpyIcon from '../../assets/numpy.png'
+import pandasIcon from '../../assets/pandas.png'
 const styles = {
     root: {
         width: "100%",
-         minHeight:585,
-        maxHeight:930,
+        minHeight: 585,
+        maxHeight: 930,
         boxSizing: "border-box",
         paddingTop: 2.3,
         paddingLeft: 1,
@@ -28,26 +28,24 @@ const styles = {
         paddingBottom: 2
     },
 }
-
-const SocialLinks =[
+const SocialLinks = [
     {
-        icon:github,
-        title:"Github"
+        icon: github,
+        title: "Github"
     },
     {
-        icon:linkedinIcon,
-        title:"Linkedin"
+        icon: linkedinIcon,
+        title: "Linkedin"
     },
     {
-        icon:whatsappIcon,
-        title:"Whatsapp"
+        icon: whatsappIcon,
+        title: "Whatsapp"
     },
-    
 ]
 const ProgrammingLanguages = [
     {
         icon: cplusplusIcon,
-        title: "C/C++"
+        title: "C / C++"
     },
     {
         icon: pythonIcon,
@@ -62,52 +60,52 @@ const ProgrammingLanguages = [
         title: "Typescript"
     },
     {
-        icon: javascript,
-        title: "Javascript"
+        icon: sqlIcon,
+        title: "SQL"
     },
 ]
-const Framworks=[
+const Framworks = [
     {
-        icon:reactIcon,
-        title:"React JS"
-    },
-     {
-        icon:reduxIcon,
-        title:"Redux Toolkit"
-    },
-     {
-        icon:reactNative,
-        title:"React Native"
-    },
-     {
-        icon:nextjsIcon,
-        title:"Next JS"
-    },
-     {
-        icon:djangoIcon,
-        title:"Django"
-    },
-     {
-        icon:fastapiIcon,
-        title:"Fast API"
+        icon: fastapiIcon,
+        title: "Fast API"
     },
     {
-        icon:materialUIIcon,
-        title:"Material UI"
+        icon: pytorchIcon,
+        title: "PyTorch"
     },
-     {
-        icon:tailwindcssIcon,
-        title:"Tailwind CSS"
+    {
+        icon: scikitLearnIcon,
+        title: "Scikit-learn"
+    },
+
+    {
+        icon: langchainIcon,
+        title: "LangChain"
+    },
+    {
+        icon: huggingFaceIcon,
+        title: "Hugging Face"
+    },
+    {
+        icon: numpyIcon,
+        title: "NumPy"
+    },
+    {
+        icon: pandasIcon,
+        title: "Pandas"
+    },
+    {
+        icon: reactIcon,
+        title: "React JS"
     },
 ]
 const Sidebar = () => {
     return (
         <Stack sx={styles.root} spacing={1}>
-        <DropDownPanel title={"Social Links"} list={SocialLinks} expandIconAlternate={true} />
-        <DropDownPanel title={"Programming Language"} list={ProgrammingLanguages} expandIconAlternate={false}  />
-        <DropDownPanel title={"Frameworks"} list={Framworks} expandIconAlternate={false}  />
+            <DropDownPanel title={"Social Links"} list={SocialLinks} expandIconAlternate={true} />
+            <DropDownPanel title={"Programming Language"} list={ProgrammingLanguages} expandIconAlternate={false} />
+            <DropDownPanel title={"Frameworks"} list={Framworks} expandIconAlternate={false} />
         </Stack>
     )
 }
-
 export default Sidebar

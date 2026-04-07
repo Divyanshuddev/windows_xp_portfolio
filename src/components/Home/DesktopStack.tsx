@@ -27,7 +27,6 @@ const data = [
 
     },
 ]
-
 const styles = {
     icon: {
         width: 60,
@@ -54,11 +53,11 @@ const styles = {
 const DesktopStack = () => {
     const dispatch = useDispatch();
     return (
-        <Stack spacing={3} position={'relative'} overflow={'hidden'} sx={{height:"97vh" }}>
+        <Stack spacing={3} position={'relative'} overflow={'hidden'} sx={{ height: "97vh" }}>
             {
                 data.map((value, index) => {
                     return (
-                        <Stack key={index} spacing={1} sx={styles.root} alignItems={'center'} component={'button'} onClick={()=>dispatch(openWindow(value.title))}>
+                        <Stack key={index} spacing={1} sx={styles.root} alignItems={'center'} component={'button'} onClick={() => dispatch(openWindow(value.title))}>
                             <Box component={'img'} src={value.icons} sx={styles.icon} />
                             <Typography sx={styles.title}>{value.title}</Typography>
                         </Stack>
@@ -68,5 +67,4 @@ const DesktopStack = () => {
         </Stack>
     )
 }
-
 export default DesktopStack

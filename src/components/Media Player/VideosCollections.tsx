@@ -16,7 +16,7 @@ const styles = {
 const data = [video1, video2, video3, video4]
 const VideosCollections = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const currentVideoIndex = useSelector((state:RootState)=>state.mediaplayer.currentVideo)
+  const currentVideoIndex = useSelector((state: RootState) => state.mediaplayer.currentVideo)
   const handleToggle = () => {
     const video = videoRef.current;
     if (!video) return;
@@ -38,7 +38,6 @@ const VideosCollections = () => {
             width: "100%",
             boxShadow: 3,
             bgcolor: "black",
-              // height:500
           }}
         >
           <source src={data[currentVideoIndex]} type="video/mp4" />

@@ -6,6 +6,8 @@ import windowResizeSlice from '../features/WindowSlice/ResizeWindowSlice'
 import projectSlice from '../features/ProjectSlice/ProjectSlice'
 import imageViewerSlice from '../features/ImageViewerSlice/ImageViewerSlice'
 import mediaPlayerSlice from '../features/MediaPlayerSlice/MediaPlayerSlice'
+import musicPlayerSlice from '../features/MusicPlayerSlice/MusicPlayerSlice'
+
 const rootReducer = combineReducers({
   startButton:startSlice,
   modal:modalSlice,
@@ -13,7 +15,8 @@ const rootReducer = combineReducers({
   windowresize:windowResizeSlice,
   project:projectSlice,
   imageViewer:imageViewerSlice,
-  mediaplayer:mediaPlayerSlice
+  mediaplayer:mediaPlayerSlice,
+  musicplayer:musicPlayerSlice,
 })
 
 export const store = configureStore({

@@ -1,22 +1,20 @@
 import { Stack } from "@mui/material"
 import AllButtons from "./AllButttons"
-
 const styles = {
     root: {
         width: "100%",
         position: "relative",
     },
     controllerContainer: {
-        top:"25%",
-        left:"38.5%",
+        top: "25%",
+        left: "38.5%",
         width: "100%",
-        
     }
 }
-interface ControllersProps{
-    handleToggleFunc:()=>void;
+interface ControllersProps {
+    handleToggleFunc: () => void;
 }
-const Controllers = ({handleToggleFunc}:ControllersProps) => {
+const Controllers = ({ handleToggleFunc }: ControllersProps) => {
     return (
         <Stack sx={styles.root}>
             <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="115" viewBox="0 0 558 69" preserveAspectRatio="xMidYMid slice" color-interpolation="linearrgb" style={{ display: "block" }}>
@@ -70,8 +68,8 @@ const Controllers = ({handleToggleFunc}:ControllersProps) => {
                     <line x1="95" x2="463" y1="69" y2="69" stroke="#191d25"></line>
                 </g>
             </svg>
-            <Stack sx={styles.controllerContainer} style={{position:"absolute"}}>
-               <AllButtons handleToggleFunc={handleToggleFunc}  />
+            <Stack sx={styles.controllerContainer} style={{ position: "absolute" }}>
+                <AllButtons handleToggleFunc={handleToggleFunc} />
             </Stack>
 
         </Stack>

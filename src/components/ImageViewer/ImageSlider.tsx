@@ -6,7 +6,6 @@ import printIcon from '../../assets/print.webp'
 import saveIcon from '../../assets/save.webp'
 import { useDispatch } from "react-redux"
 import { setImageViewer } from "../../features/ImageViewerSlice/ImageViewerSlice"
-
 const data = [
     {
         icon: backIcon,

@@ -6,6 +6,7 @@ import shutdownImage from '../../assets/shutdown.webp'
 import logoffImage from '../../assets/logoff.webp'
 import { useDispatch } from "react-redux";
 import { closeModal } from "../../features/ModalSlice/ModalSlice";
+import { useNavigate } from "react-router-dom";
 const styles = {
     root: {
         position: 'absolute',
@@ -15,7 +16,6 @@ const styles = {
         width: 400,
         bgcolor: 'background.paper',
         boxShadow: 24,
-        border: "0.5px solid black"
     },
     bars: {
         backgroundColor: "#0031A7",
@@ -67,7 +67,6 @@ const styles = {
         fontFamily: "Comic Neue",
         fontWeight: "bolder"
     }
-
 };
 
 type CommonModalProps = {
@@ -76,6 +75,7 @@ type CommonModalProps = {
 }
 const CommonModal = ({ open, header }: CommonModalProps) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     return (
         <Modal
             open={open}
@@ -90,7 +90,7 @@ const CommonModal = ({ open, header }: CommonModalProps) => {
                 <Stack sx={styles.restartStack} justifyContent={'center'} alignItems={'center'}>
                     <Stack direction={'row'} alignItems={'center'} spacing={15}>
                         <Stack alignItems={'center'} spacing={2}>
-                            <Stack component={'button'} sx={styles.restartButton} >
+                            <Stack component={'button'} sx={styles.restartButton} onClick={() => { navigate('/'), dispatch(closeModal()) }}>
                                 <Box component={'img'} src={restartImage} sx={styles.img} className="restartIcon" />
                             </Stack>
                             <Typography>Restart</Typography>
@@ -117,5 +117,4 @@ const CommonModal = ({ open, header }: CommonModalProps) => {
         </Modal>
     )
 }
-
 export default CommonModal

@@ -5,7 +5,7 @@ import Filebar from "./Filebar"
 import Actionbar from "./Actionbar"
 import Addressbar from "./Addressbar"
 import About from "../About/About"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { currentWindowSize } from "../../features/WindowSlice/ResizeWindowSlice"
 import aboutIcon from '../../assets/about.webp'
 import myprojectIcon from '../../assets/projects.webp'
@@ -13,6 +13,7 @@ import resumeIcon from '../../assets/resume.webp'
 import folderIcon from '../../assets/folder.webp'
 import forwardIcon from '../../assets/forward.webp'
 import backIcon from '../../assets/back.webp'
+import type { RootState } from "../../store/store"
 const FilebarList = [
   {
     menu: "File",
@@ -61,32 +62,32 @@ const FilebarList = [
     ]
   }
 ]
-const ActionbarList=[
-    {
-        icon:backIcon,
-        name:"Back",
-        disable:true
-    },
-    {
-        icon:forwardIcon,
-        name:"Forward",
-        disable:true
-    },
-    {
-        icon:myprojectIcon,
-        name:"My Projects",
-        disable:false
-    },
-    {
-        icon:resumeIcon,
-        name:"My Resume",
-        disable:false
-    },
-    {
-        icon:folderIcon,
-        name:"",
-        disable:true
-    }
+const ActionbarList = [
+  {
+    icon: backIcon,
+    name: "Back",
+    disable: true
+  },
+  {
+    icon: forwardIcon,
+    name: "Forward",
+    disable: true
+  },
+  {
+    icon: myprojectIcon,
+    name: "My Projects",
+    disable: false
+  },
+  {
+    icon: resumeIcon,
+    name: "My Resume",
+    disable: false
+  },
+  {
+    icon: folderIcon,
+    name: "",
+    disable: true
+  }
 ]
 const styles = {
   root: {
@@ -129,25 +130,27 @@ interface WindowProps {
   containerRef: React.RefObject<HTMLDivElement | null>
   zIndex: number
   bringToFront: (id: number) => void
+  defaultPosition: { top: number; left: number };
 }
 
-const Window = ({ id, containerRef, zIndex, bringToFront }: WindowProps) => {
+const Window = ({ id, containerRef, zIndex, bringToFront, defaultPosition }: WindowProps) => {
   const boxRef = useRef<HTMLDivElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
   const dispatch = useDispatch();
   const isDragging = useRef(false)
   const dragOffset = useRef({ x: 0, y: 0 })
-
+  const minimizeAboutWindow = useSelector((state: RootState) => state.window.minimizeAboutWindow)
   const [isMaximized, setIsMaximized] = useState(false)
-
   const restoreState = useRef({
     width: DEFAULT_SIZE.width,
     height: DEFAULT_SIZE.height,
-    x: 120 * id,
-    y: 80 * id
-  })
-
-  const position = useRef({ x: 120 * id, y: 80 * id })
+    x: defaultPosition?.left ?? 150,
+    y: Math.max(defaultPosition?.top ?? 100, 100),
+  });
+  const position = useRef({
+    x: defaultPosition?.left ?? 150,
+    y: Math.max(defaultPosition?.top ?? 100, 100),
+  });
   const size = useRef({ width: DEFAULT_SIZE.width, height: DEFAULT_SIZE.height })
 
   const applyStyles = () => {
@@ -161,7 +164,6 @@ const Window = ({ id, containerRef, zIndex, bringToFront }: WindowProps) => {
     const currentHeight = size.current.height
     dispatch(currentWindowSize({ currentWidth, currentHeight }))
   }
-
   const maximize = () => {
     const container = containerRef.current
     if (!container || isMaximized) return
@@ -172,7 +174,6 @@ const Window = ({ id, containerRef, zIndex, bringToFront }: WindowProps) => {
       x: position.current.x,
       y: position.current.y
     }
-
     size.current.width = container.clientWidth
     size.current.height = container.clientHeight - 31
     console.log(size.current.height)
@@ -248,13 +249,14 @@ const Window = ({ id, containerRef, zIndex, bringToFront }: WindowProps) => {
         overflow: "hidden",
         userSelect: "none",
         zIndex,
+        display: minimizeAboutWindow ? "none" : "block"
       }}
     >
       <Stack
         ref={headerRef}
         sx={styles.headerContainer}
       >
-        <Header onToggleResize={toggleResize} title={"About Me"} icon={aboutIcon} />
+        <Header onToggleResize={toggleResize} title={"About me"} icon={aboutIcon} />
       </Stack>
 
       <Stack sx={styles.root}>
@@ -262,7 +264,7 @@ const Window = ({ id, containerRef, zIndex, bringToFront }: WindowProps) => {
         <Divider style={{ backgroundColor: "#F0F0F0", height: "0.005rem" }} />
         <Actionbar list={ActionbarList} />
         <Divider style={{ backgroundColor: "#F0F0F0", height: "0.005rem" }} />
-        <Addressbar />
+        <Addressbar title="About me" icon={aboutIcon} />
         <About />
       </Stack>
       <Stack sx={styles.footer}>
@@ -271,7 +273,4 @@ const Window = ({ id, containerRef, zIndex, bringToFront }: WindowProps) => {
     </Stack>
   )
 }
-
 export default Window
-
-

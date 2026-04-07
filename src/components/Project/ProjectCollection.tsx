@@ -180,22 +180,21 @@ const ProjectCollection = () => {
         <Stack sx={styles.root} overflow={'auto'}>
             {
                 displayProjectList ? (
-                   <ProjectPreview images={projectList[showProjectById-1].images} name={projectList[showProjectById-1].title} details={projectList[showProjectById-1].details} techStack={projectList[showProjectById-1].techStack} githubLink={projectList[showProjectById-1].github} liveLink={projectList[showProjectById-1].link} />
-                ): (
-                        <Grid container spacing = { 1 }>
-            {
-                projectList.map((value,index)=>{
-                    return(
-            <Grid size={currentHeight > 800 ? 3 : 6} key={index}>
-                <ProjectCard image={value.images[0]} name={value.title} category={value.category} projectID={value.projectId} />
-            </Grid>
-            )
-                })
+                    <ProjectPreview images={projectList[showProjectById - 1].images} name={projectList[showProjectById - 1].title} details={projectList[showProjectById - 1].details} techStack={projectList[showProjectById - 1].techStack} githubLink={projectList[showProjectById - 1].github} liveLink={projectList[showProjectById - 1].link} />
+                ) : (
+                    <Grid container spacing={1}>
+                        {
+                            projectList.map((value, index) => {
+                                return (
+                                    <Grid size={currentHeight > 800 ? 3 : 6} key={index}>
+                                        <ProjectCard image={value.images[0]} name={value.title} category={value.category} projectID={value.projectId} />
+                                    </Grid>
+                                )
+                            })
+                        }
+                    </Grid>
+                )
             }
-        </Grid>
-    )
-}
-          
         </Stack >
     )
 }

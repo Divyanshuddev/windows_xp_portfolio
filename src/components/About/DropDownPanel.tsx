@@ -2,14 +2,14 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Stack, Typography }
 import ExpandIcon from "./ExpandIcon";
 import { useDispatch } from "react-redux";
 import { openSocialLinksModal } from "../../features/ModalSlice/ModalSlice";
-interface ListData{
-    icon:string;
-    title:string;
+interface ListData {
+    icon: string;
+    title: string;
 }
-type DropDownPanelProps={
-    title:string;
-    list:ListData[],
-    expandIconAlternate:boolean
+type DropDownPanelProps = {
+    title: string;
+    list: ListData[],
+    expandIconAlternate: boolean
 }
 const styles = {
     accordian: {
@@ -37,15 +37,15 @@ const styles = {
         height: 15,
         objectFit: "cover"
     },
-    iconTitle:{
-         fontSize: 12,
+    iconTitle: {
+        fontSize: 12,
         color: "#0c327d",
     },
     socialIconTitle: {
         fontSize: 12,
         color: "#0c327d",
-         "&:hover":{
-            textDecoration:"underline"
+        "&:hover": {
+            textDecoration: "underline"
         }
     },
     socialLinksStack: {
@@ -54,19 +54,19 @@ const styles = {
         border: "none"
     }
 }
-const DropDownPanel = ({title,list,expandIconAlternate}:DropDownPanelProps)=>{
+const DropDownPanel = ({ title, list, expandIconAlternate }: DropDownPanelProps) => {
     const dispatch = useDispatch();
-    return(
+    return (
         <Stack>
-             <Accordion elevation={0} defaultExpanded>
+            <Accordion elevation={0} defaultExpanded>
                 <AccordionSummary
                     expandIcon={<ExpandIcon alternate={expandIconAlternate} />}
                     aria-controls="panel1-content"
                     id="panel1-header"
                     sx={styles.accordianSummary}
                     style={{
-                        background:title==="Social Links"?"linear-gradient(90deg, #054394 0, #0484fb)":"linear-gradient(90deg, #fff 0, #f0f0ff 50%, #c2d4ec)",
-                        color:title==="Social Links"?"white":"#0c327d"
+                        background: title === "Social Links" ? "linear-gradient(90deg, #054394 0, #0484fb)" : "linear-gradient(90deg, #fff 0, #f0f0ff 50%, #c2d4ec)",
+                        color: title === "Social Links" ? "white" : "#0c327d"
                     }}
                 >
                     <Typography sx={styles.accordianSummaryText}>{title}</Typography>
@@ -74,11 +74,11 @@ const DropDownPanel = ({title,list,expandIconAlternate}:DropDownPanelProps)=>{
                 <AccordionDetails sx={styles.accordianDetails}>
                     <Stack spacing={0.5}>
                         {
-                            list.map((values,index)=>{
-                                return(
-                                    <Stack key={index} direction={'row'} alignItems={'center'} spacing={1} sx={styles.socialLinksStack} component={'button'} onClick={()=>dispatch(openSocialLinksModal(`${values.title}`))}>
+                            list.map((values, index) => {
+                                return (
+                                    <Stack key={index} direction={'row'} alignItems={'center'} spacing={1} sx={styles.socialLinksStack} component={'button'} onClick={() => dispatch(openSocialLinksModal(`${values.title}`))} disabled={["Github", "Linkedin", "Whatsapp"].includes(values.title) ? false : true}>
                                         <Box component={'img'} sx={styles.socialIcon} src={values.icon} />
-                                        <Typography sx={title==="Social Links"?styles.socialIconTitle:styles.iconTitle}>{values.title}</Typography>
+                                        <Typography sx={title === "Social Links" ? styles.socialIconTitle : styles.iconTitle}>{values.title}</Typography>
                                     </Stack>
                                 )
                             })
@@ -89,5 +89,4 @@ const DropDownPanel = ({title,list,expandIconAlternate}:DropDownPanelProps)=>{
         </Stack>
     )
 }
-
 export default DropDownPanel

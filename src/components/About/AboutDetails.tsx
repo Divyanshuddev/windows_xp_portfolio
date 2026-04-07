@@ -27,12 +27,11 @@ const data = [
 ];
 const styles = {
     root: {
-        boxSize:"border-box",
+        boxSize: "border-box",
         paddingTop: 3,
         paddingLeft: 5,
         paddingRight: 3,
         paddingBottom: 10,
-        
         "&::-webkit-scrollbar": {
             width: "17px"
         },
@@ -55,13 +54,13 @@ const styles = {
             backgroundImage: `url(${scrollDown})`,
             backgroundPosition: "center",
             backgroundSize: "cover",
-            border:"1.5px solid white"
+            border: "1.5px solid white"
         },
         "&-webkit-scrollbar-button: vertical:increment ": {
             backgroundImage: `url(${scrollUp})`,
             backgroundPosition: "center",
             backgroundSize: "cover",
-             border:"1.5px solid white"
+            border: "1.5px solid white"
         }
     },
     avatar: {
@@ -73,23 +72,22 @@ const styles = {
         fontWeight: "bolder",
         color: "white"
     },
-    paraText:{
-        color:"white",
-        fontFamily:"Comic Neue",
-        fontSize:17,
+    paraText: {
+        color: "white",
+        fontFamily: "Comic Neue",
+        fontSize: 17,
     }
-
 }
 const AboutDetails = () => {
-    const currentHeight=useSelector((state:RootState)=>state.windowresize.height)
+    const currentHeight = useSelector((state: RootState) => state.windowresize.height)
     return (
-        <Stack sx={[styles.root,{height:currentHeight===750?482:currentHeight}]} overflow={'auto !important'} >
+        <Stack sx={[styles.root, { height: currentHeight === 750 ? 482 : currentHeight }]} overflow={'auto !important'} >
             <Typography sx={styles.aboutMeText}>About Me</Typography>
             <Stack spacing={3}>
                 {
                     data.map((value, index) => {
                         return (
-                            <Stack key={index} direction={'row'} alignItems={"flex-start"} spacing={index===2?7:5}>
+                            <Stack key={index} direction={'row'} alignItems={"flex-start"} spacing={index === 2 ? 7 : 5}>
                                 <Box component={'img'} src={value.avatar} sx={styles.avatar} />
                                 <Typography sx={styles.paraText}>{value.para}</Typography>
                             </Stack>
@@ -100,5 +98,4 @@ const AboutDetails = () => {
         </Stack>
     )
 }
-
 export default AboutDetails

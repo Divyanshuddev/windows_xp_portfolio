@@ -29,7 +29,6 @@ const list = [
         icon: <SportsEsportsRoundedIcon style={{ color: "white" }} />,
     },
 ]
-
 const SideBar = () => {
     const currentHeight = useSelector((state: RootState) => state.windowresize.height)
     const styles = {
@@ -43,7 +42,7 @@ const SideBar = () => {
         },
         title: {
             fontFamily: "Roboto Condensed",
-            fontSize:14
+            fontSize: 14
         },
         menuButton: {
             boxSizing: "border-box",
@@ -65,7 +64,7 @@ const SideBar = () => {
         }
     }
     const selectedItem = useSelector((state: RootState) => state.project.selectedItem)
-    const disableButtons = useSelector((state:RootState)=>state.project.showProjects)
+    const disableButtons = useSelector((state: RootState) => state.project.showProjects)
     const dispatch = useDispatch();
     return (
         <Stack sx={styles.root} spacing={2} >

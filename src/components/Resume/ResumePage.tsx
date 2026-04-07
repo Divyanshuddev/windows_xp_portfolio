@@ -6,7 +6,7 @@ import scrollDown from '../../assets/scrollDown.png'
 import type { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 const ResumePage = () => {
-  const currentHeight = useSelector((state:RootState)=>state.windowresize.height)
+  const currentHeight = useSelector((state: RootState) => state.windowresize.height)
   const [scale, setScale] = useState(1);
   const handleClick = () => {
     setScale((prev) => (prev === 1 ? 2 : 1));
@@ -16,8 +16,8 @@ const ResumePage = () => {
       width: "100%",
       overflow: "auto",
       boxSizing: "border-box",
-      padding:5,
-      height: currentHeight-125,
+      padding: 5,
+      height: currentHeight - 125,
       "&::-webkit-scrollbar": {
         width: "17px"
       },
@@ -58,7 +58,6 @@ const ResumePage = () => {
   };
   return (
     <Stack
-      // justifyContent="center"
       alignItems="center"
       sx={styles.container}
     >
@@ -75,7 +74,6 @@ const ResumePage = () => {
     </Stack>
   );
 };
-
 export default ResumePage;
 
 

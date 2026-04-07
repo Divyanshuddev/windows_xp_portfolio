@@ -1,14 +1,14 @@
 import { Stack } from "@mui/material"
 import { useEffect, useRef, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { currentWindowSize } from "../../features/WindowSlice/ResizeWindowSlice"
 import mediaPlayerIcon from '../../assets/mediaPlayer.webp'
 import Header from "../Window/Header"
 import VideosCollections from "./VideosCollections"
-
+import type { RootState } from "../../store/store"
 const styles = {
   root: {
-    background:"#A4A29A",
+    background: "#A4A29A",
     flexGrow: 1,
     borderRadius: 0,
     paddingTop: 0
@@ -38,35 +38,34 @@ const styles = {
     fontWeight: 600,
     width: "100%",
   },
-  
 }
 const DEFAULT_SIZE = { width: 800, height: 600 }
-
 interface MediaPlayerProps {
   id: number
   containerRef: React.RefObject<HTMLDivElement | null>
   zIndex: number
   bringToFront: (id: number) => void
+  defaultPosition: { top: number; left: number };
 }
-const MediaPlayerWindow =({ id, containerRef, zIndex, bringToFront }:MediaPlayerProps)=>{
-    const boxRef = useRef<HTMLDivElement>(null)
+const MediaPlayerWindow = ({ id, containerRef, zIndex, bringToFront, defaultPosition }: MediaPlayerProps) => {
+  const boxRef = useRef<HTMLDivElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
   const dispatch = useDispatch();
   const isDragging = useRef(false)
   const dragOffset = useRef({ x: 0, y: 0 })
-
+  const minimizeMediaPlayerWindow = useSelector((state: RootState) => state.window.minimizeMediaPlayerWindow)
   const [isMaximized, setIsMaximized] = useState(false)
-
   const restoreState = useRef({
     width: DEFAULT_SIZE.width,
     height: DEFAULT_SIZE.height,
-    x: 120 * id,
-    y: 80 * id
-  })
-
-  const position = useRef({ x: 120 * id, y: 80 * id })
+    x: defaultPosition?.left ?? 150,
+    y: Math.max(defaultPosition?.top ?? 100, 100),
+  });
+  const position = useRef({
+    x: defaultPosition?.left ?? 150,
+    y: Math.max(defaultPosition?.top ?? 100, 100),
+  });
   const size = useRef({ width: DEFAULT_SIZE.width, height: DEFAULT_SIZE.height })
-
   const applyStyles = () => {
     const box = boxRef.current
     if (!box) return
@@ -78,7 +77,6 @@ const MediaPlayerWindow =({ id, containerRef, zIndex, bringToFront }:MediaPlayer
     const currentHeight = size.current.height
     dispatch(currentWindowSize({ currentWidth, currentHeight }))
   }
-
   const maximize = () => {
     const container = containerRef.current
     if (!container || isMaximized) return
@@ -89,20 +87,16 @@ const MediaPlayerWindow =({ id, containerRef, zIndex, bringToFront }:MediaPlayer
       x: position.current.x,
       y: position.current.y
     }
-
     size.current.width = container.clientWidth
     size.current.height = container.clientHeight - 31
     console.log(size.current.height)
     position.current.x = 0
     position.current.y = 0
-
     setIsMaximized(true)
     applyStyles()
   }
-
   const restore = () => {
     if (!isMaximized) return
-
     size.current.width = restoreState.current.width
     size.current.height = restoreState.current.height
     position.current.x = restoreState.current.x
@@ -152,8 +146,8 @@ const MediaPlayerWindow =({ id, containerRef, zIndex, bringToFront }:MediaPlayer
       window.removeEventListener("mouseup", onMouseUp)
     }
   }, [isMaximized])
-    return(
-        <Stack
+  return (
+    <Stack
       ref={boxRef}
       onClick={() => bringToFront(id)}
       sx={{
@@ -165,18 +159,19 @@ const MediaPlayerWindow =({ id, containerRef, zIndex, bringToFront }:MediaPlayer
         overflow: "hidden",
         userSelect: "none",
         zIndex,
+        display: minimizeMediaPlayerWindow ? "none" : "block"
       }}
     >
       <Stack
         ref={headerRef}
         sx={styles.headerContainer}
       >
-        <Header onToggleResize={toggleResize} title={"My Projects"} icon={mediaPlayerIcon} />
+        <Header onToggleResize={toggleResize} title={"Media Player"} icon={mediaPlayerIcon} />
       </Stack>
       <Stack sx={styles.root}>
         <VideosCollections />
       </Stack>
-      </Stack>
-    )
+    </Stack>
+  )
 }
 export default MediaPlayerWindow

@@ -5,16 +5,9 @@ import myresume from '../../assets/resume.webp'
 import contactme from '../../assets/contact.webp'
 import mediaplayer from '../../assets/mediaPlayer.webp'
 import musicplayeer from '../../assets/music.webp'
-import imageviwer from '../../assets/music.webp'
+import imageviwer from '../../assets/photos.webp'
 import cmd from '../../assets/cmd.webp'
-import github from '../../assets/github.png'
-import linkedin from '../../assets/linkedIn.png'
-import whatsapp from '../../assets/whatsapp.png'
 import TurboC from '../../assets/turboC.png'
-import PhotoShop from '../../assets/PhotoShop.png'
-import AfterEffect from '../../assets/afterEffect.png'
-import Illustrator from '../../assets/illustrator.png'
-import PremierePro from '../../assets/PremierePro .png'
 import vscode from '../../assets/vscode.png'
 import pycharm from '../../assets/pycharm.png'
 import androidStudio from '../../assets/androidStudio.png'
@@ -25,11 +18,16 @@ import pythonCLI from '../../assets/pythoncli.png'
 import tensorflow from '../../assets/tnsorflow.png'
 import sqllite from '../../assets/sqlite.png'
 import docker from '../../assets/docker.png'
-import soundCloud from '../../assets/soundCloud.png'
+import { useDispatch } from "react-redux"
+import { openWindow } from "../../features/WindowSlice/WindowSlice"
+import lmStudioIcon from '../../assets/lmstudio.webp'
+import openCVIcon from '../../assets/opencv.png'
+import openRouterIcon from '../../assets/openrouter.webp'
+import jupyterIcon from '../../assets/jupyternotebook.png'
 const data = [
     {
         icon: about,
-        title: "About Me"
+        title: "About me"
     },
     {
         icon: myproject,
@@ -58,43 +56,28 @@ const data = [
     {
         icon: cmd,
         title: "Command Prompt"
-    },
-    {
-        icon: github,
-        title: "Github"
-    },
-    {
-        icon: linkedin,
-        title: "Linkedin"
-    },
-
-    {
-        icon: whatsapp,
-        title: "Whatsapp"
-    },
-
+    }
 ]
-
 const recentlyUsedData = [
     {
         icon: TurboC,
         title: "Turbo C"
     },
     {
-        icon: PhotoShop,
-        title: "Adobe PhotoShop"
+        icon: lmStudioIcon,
+        title: "LM Studio"
     },
     {
-        icon: AfterEffect,
-        title: "Adobe AfterEffect"
+        icon: openCVIcon,
+        title: "OpenCV"
     },
     {
-        icon: Illustrator,
-        title: "Adobe Illustrator"
+        icon: openRouterIcon,
+        title: "OpenRouter"
     },
     {
-        icon: PremierePro,
-        title: "Adobe Premiere Pro"
+        icon: jupyterIcon,
+        title: "Juputer Notebook"
     },
     {
         icon: vscode,
@@ -136,11 +119,6 @@ const recentlyUsedData = [
         icon: docker,
         title: "Docker"
     },
-    {
-        icon: soundCloud,
-        title: "SoundCloud"
-    },
-
 ]
 const styles = {
     root: {
@@ -170,11 +148,11 @@ const styles = {
         }
     }
 }
-
 type AllProgramsPopoverProps = {
     type: string;
 }
 const AllProgramsPopover = ({ type }: AllProgramsPopoverProps) => {
+    const dispatch = useDispatch()
     return (
         <Stack sx={styles.root} spacing={1}>
             {
@@ -184,7 +162,7 @@ const AllProgramsPopover = ({ type }: AllProgramsPopoverProps) => {
                             data.map((value, index) => {
                                 return (
                                     <Stack key={index}>
-                                        <Stack component={'button'} direction={'row'} alignItems={"center"} spacing={1} sx={styles.menuItem} >
+                                        <Stack component={'button'} direction={'row'} alignItems={"center"} spacing={1} sx={styles.menuItem} onClick={() => dispatch(openWindow(value.title))}>
                                             <Box component={'img'} src={value.icon} sx={styles.image} />
                                             <Typography sx={styles.title} className="title">{value.title}</Typography>
                                         </Stack>
@@ -195,7 +173,7 @@ const AllProgramsPopover = ({ type }: AllProgramsPopoverProps) => {
                         }
                     </>
                 ) : (
-                    <Stack sx={{opacity:0.7}}>
+                    <Stack sx={{ opacity: 0.7 }}>
                         {
                             recentlyUsedData.map((value, index) => {
                                 return (
@@ -211,9 +189,7 @@ const AllProgramsPopover = ({ type }: AllProgramsPopoverProps) => {
                     </Stack>
                 )
             }
-
         </Stack>
     )
 }
-
 export default AllProgramsPopover

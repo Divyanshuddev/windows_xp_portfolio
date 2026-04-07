@@ -3,7 +3,7 @@ import minimize from '../../assets/minimize.svg'
 import max from '../../assets/max.svg'
 import close from '../../assets/close.svg'
 import { useDispatch } from "react-redux"
-import { closeAboutWindow } from "../../features/WindowSlice/WindowSlice"
+import {closeWindow, minimizeWindow } from "../../features/WindowSlice/WindowSlice"
 const styles = {
     root: {
         boxSizing:"border-box",
@@ -37,7 +37,13 @@ const styles = {
         border: "none",
         width: "fit-content",
         padding: 0
-
+    },
+    disableButton:{
+        backgroundColor: "transparent",
+        border: "none",
+        width: "fit-content",
+        padding: 0,
+        opacity:0.5
     }
 }
 interface HeaderProps {
@@ -55,13 +61,13 @@ const Header = ({ onToggleResize,title,icon}: HeaderProps) => {
                 <Typography sx={styles.title}>{title}</Typography>
             </Stack>
             <Stack direction={'row'} alignItems={'center'} spacing={0.3}>
-                <Stack component={'button'} sx={styles.button} >
+                <Stack component={'button'} sx={styles.button} onClick={()=>dispatch(minimizeWindow(title))}>
                     <Box component={'img'} src={minimize} sx={styles.tools} />
                 </Stack>
-                <Stack component={'button'} sx={styles.button} onClick={()=>{onToggleResize()}}>
+                <Stack component={'button'} sx={title==='Contact Me'||title==='Music Player'?styles.disableButton:styles.button} onClick={()=>{onToggleResize()}} disabled={title==='Contact Me'||title==='Music Player'?true:false}>
                     <Box component={'img'} src={max} sx={styles.tools} />
                 </Stack>
-                <Stack component={'button'} sx={styles.button} onClick={() => dispatch(closeAboutWindow())}>
+                <Stack component={'button'} sx={styles.button} onClick={() => dispatch(closeWindow(title))}>
                     <Box component={'img'} src={close} sx={styles.tools} />
                 </Stack>
             </Stack>

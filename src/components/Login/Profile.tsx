@@ -1,18 +1,21 @@
 import { Box, Stack, Typography } from "@mui/material"
 import profilePhoto from '../../assets/DivyanshuPhotos.png'
+import { useNavigate } from "react-router-dom"
 const styles = {
     root: {
         padding: 3,
         borderRadius: 4,
+        backgroundColor: "transparent",
+        border: "none",
         "&:hover": {
-            background:"linear-gradient(90deg, #113fa6, #113fa6, #587cdb)",
-            cursor:"pointer",
+            background: "linear-gradient(90deg, #113fa6, #113fa6, #587cdb)",
+            cursor: "pointer",
             backgroundColor: "blue",
             ".profile-border": {
                 borderColor: "orange",
             },
-            ".designation-color":{
-                color:"#FFBF25"
+            ".designation-color": {
+                color: "#FFBF25"
             },
         },
     },
@@ -38,8 +41,9 @@ const styles = {
 
 }
 const Profile = () => {
+    const navigate = useNavigate();
     return (
-        <Stack direction={'row'} alignItems={'center'} spacing={5} sx={styles.root}>
+        <Stack direction={'row'} alignItems={'center'} spacing={5} sx={styles.root} component={'button'} onClick={() => navigate('/home')}>
             <Stack sx={styles.profileBorder} className="profile-border">
                 <Box component={'img'} sx={styles.avatar} src={profilePhoto} />
             </Stack>

@@ -1,5 +1,4 @@
 import { Box, keyframes, Stack, Typography } from "@mui/material"
-import aboutIcon from '../../assets/about.webp'
 import dropDownIcon from '../../assets/tooldropdown.webp'
 import goButtonIcon from '../../assets/go(gray).png'
 const fillAndFade = keyframes`
@@ -58,14 +57,18 @@ const styles = {
         fontSize: 12
     }
 }
-const Addressbar = () => {
+interface AddressbarProps {
+    title: string;
+    icon: string;
+}
+const Addressbar = ({ title, icon }: AddressbarProps) => {
     return (
         <Stack sx={styles.root} direction={'row'} alignItems={'center'} spacing={2}>
             <Typography sx={styles.addressText}>Address</Typography>
             <Stack sx={styles.addressBox} direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
                 <Stack direction={'row'} alignItems={'center'} spacing={1} overflow={'hidden'} position={'relative'}>
-                    <Box component={'img'} src={aboutIcon} sx={styles.logo} />
-                    <Typography sx={styles.title}>About me</Typography>
+                    <Box component={'img'} src={icon} sx={styles.logo} />
+                    <Typography sx={styles.title}>{title}</Typography>
                 </Stack>
                 <Box component={'img'} src={dropDownIcon} sx={styles.dropDownIcon} />
             </Stack>
@@ -76,5 +79,4 @@ const Addressbar = () => {
         </Stack>
     )
 }
-
 export default Addressbar

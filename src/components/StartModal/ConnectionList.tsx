@@ -1,10 +1,11 @@
 import { Box, Stack, Typography } from "@mui/material"
-
 import github from '../../assets/github.png'
 import linkedin from '../../assets/linkedIn.png'
 import whatasapp from '../../assets/whatsapp.png'
 import cmd from '../../assets/cmd.webp'
 import resume from '../../assets/resume.webp'
+import { useDispatch } from "react-redux"
+import { openConnectionLinks } from "../../features/WindowSlice/WindowSlice"
 const data = [
     {
         icon: github,
@@ -13,7 +14,7 @@ const data = [
     },
     {
         icon: linkedin,
-        title: "LinkedIn",
+        title: "Linkedin",
         fontWeight: "dark"
     },
     {
@@ -62,17 +63,18 @@ const styles = {
     }
 }
 
-type ConnectionListProps={
-    start:number;
-    end:number;
+type ConnectionListProps = {
+    start: number;
+    end: number;
 }
-const ConnectionList =({start,end}:ConnectionListProps)=>{
-    return(
+const ConnectionList = ({ start, end }: ConnectionListProps) => {
+    const dispatch = useDispatch()
+    return (
         <>
-        {
+            {
                 data.slice(start, end).map((value, index) => {
                     return (
-                        <Stack key={index} sx={styles.menuStack} component={'button'}>
+                        <Stack key={index} sx={styles.menuStack} component={'button'} onClick={() => dispatch(openConnectionLinks(value.title))}>
                             <Stack direction={'row'} alignItems={'center'} spacing={1}>
                                 <Box component={'img'} src={value.icon} sx={styles.image} />
                                 <Typography className="title" sx={styles.title} style={{ fontWeight: value.fontWeight === "dark" ? "bolder" : "lighter", fontFamily: value.fontWeight === "none" ? "Roboto Condensed" : "" }}>{value.title}</Typography>
@@ -84,5 +86,4 @@ const ConnectionList =({start,end}:ConnectionListProps)=>{
         </>
     )
 }
-
 export default ConnectionList

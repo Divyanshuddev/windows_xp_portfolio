@@ -1,6 +1,6 @@
 import { Divider, Stack, Typography } from "@mui/material"
 import { useEffect, useRef, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { currentWindowSize } from "../../features/WindowSlice/ResizeWindowSlice"
 import contactIcon from '../../assets/contact (1).webp'
 import Header from "../Window/Header"
@@ -13,6 +13,7 @@ import cutIcon from '../../assets/cut.webp'
 import newMessageIcon from '../../assets/new.webp'
 import sendMessageIcon from '../../assets/send.webp'
 import ContactPanel from "./ContactPanel"
+import type { RootState } from "../../store/store"
 const FilebarList = [
     {
         menu: "File",
@@ -93,12 +94,12 @@ const ActionbarList = [
     {
         icon: sendMessageIcon,
         name: "Send Message",
-        disable: true
+        disable: false
     },
     {
         icon: newMessageIcon,
         name: "New Message",
-        disable: true
+        disable: false
     },
     {
         icon: cutIcon,
@@ -153,36 +154,34 @@ const styles = {
         fontWeight: 600,
         width: "100%",
     },
-
 }
-
 const DEFAULT_SIZE = { width: 600, height: 500 }
-
 interface ContactMeWindowProps {
     id: number
     containerRef: React.RefObject<HTMLDivElement | null>
     zIndex: number
     bringToFront: (id: number) => void
+    defaultPosition: { top: number; left: number };
 }
-const ContactMeWindow = ({ id, containerRef, zIndex, bringToFront }: ContactMeWindowProps) => {
+const ContactMeWindow = ({ id, containerRef, zIndex, bringToFront, defaultPosition }: ContactMeWindowProps) => {
     const boxRef = useRef<HTMLDivElement>(null)
     const headerRef = useRef<HTMLDivElement>(null)
     const dispatch = useDispatch();
     const isDragging = useRef(false)
     const dragOffset = useRef({ x: 0, y: 0 })
-
+    const minimizeContactWindow = useSelector((state: RootState) => state.window.minimizeContactWindow)
     const [isMaximized, setIsMaximized] = useState(false)
-
     const restoreState = useRef({
         width: DEFAULT_SIZE.width,
         height: DEFAULT_SIZE.height,
-        x: 120 * id,
-        y: 80 * id
-    })
-
-    const position = useRef({ x: 120 * id, y: 80 * id })
+        x: defaultPosition?.left ?? 150,
+        y: Math.max(defaultPosition?.top ?? 100, 100),
+    });
+    const position = useRef({
+        x: defaultPosition?.left ?? 150,
+        y: Math.max(defaultPosition?.top ?? 100, 100),
+    });
     const size = useRef({ width: DEFAULT_SIZE.width, height: DEFAULT_SIZE.height })
-
     const applyStyles = () => {
         const box = boxRef.current
         if (!box) return
@@ -194,18 +193,15 @@ const ContactMeWindow = ({ id, containerRef, zIndex, bringToFront }: ContactMeWi
         const currentHeight = size.current.height
         dispatch(currentWindowSize({ currentWidth, currentHeight }))
     }
-
     const maximize = () => {
         const container = containerRef.current
         if (!container || isMaximized) return
-
         restoreState.current = {
             width: size.current.width,
             height: size.current.height,
             x: position.current.x,
             y: position.current.y
         }
-
         size.current.width = container.clientWidth
         size.current.height = container.clientHeight - 31
         console.log(size.current.height)
@@ -215,7 +211,6 @@ const ContactMeWindow = ({ id, containerRef, zIndex, bringToFront }: ContactMeWi
         setIsMaximized(true)
         applyStyles()
     }
-
     const restore = () => {
         if (!isMaximized) return
 
@@ -223,16 +218,13 @@ const ContactMeWindow = ({ id, containerRef, zIndex, bringToFront }: ContactMeWi
         size.current.height = restoreState.current.height
         position.current.x = restoreState.current.x
         position.current.y = restoreState.current.y
-
         setIsMaximized(false)
         applyStyles()
     }
-
     const toggleResize = () => {
         bringToFront(id)
         isMaximized ? restore() : maximize()
     }
-
     useEffect(() => {
         applyStyles()
 
@@ -245,7 +237,6 @@ const ContactMeWindow = ({ id, containerRef, zIndex, bringToFront }: ContactMeWi
             isDragging.current = true
             dragOffset.current = { x: e.clientX, y: e.clientY }
         }
-
         const onMouseMove = (e: MouseEvent) => {
             if (!isDragging.current) return
             position.current.x += e.clientX - dragOffset.current.x
@@ -253,7 +244,6 @@ const ContactMeWindow = ({ id, containerRef, zIndex, bringToFront }: ContactMeWi
             dragOffset.current = { x: e.clientX, y: e.clientY }
             applyStyles()
         }
-
         const onMouseUp = () => {
             isDragging.current = false
         }
@@ -281,6 +271,7 @@ const ContactMeWindow = ({ id, containerRef, zIndex, bringToFront }: ContactMeWi
                 overflow: "hidden",
                 userSelect: "none",
                 zIndex,
+                display: minimizeContactWindow ? "none" : "block"
             }}
         >
             <Stack

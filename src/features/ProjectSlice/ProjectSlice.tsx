@@ -1,34 +1,36 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export interface ProjectSliceState{
-    selectedItem:string;
-    showProjects:boolean;
-    showProjectById:number;
+export interface ProjectSliceState {
+    selectedItem: string;
+    showProjects: boolean;
+    showProjectById: number;
 }
-const initialState:ProjectSliceState={
-    selectedItem:'All',
-    showProjects:false,
-    showProjectById:1
+const initialState: ProjectSliceState = {
+    selectedItem: 'All',
+    showProjects: false,
+    showProjectById: 1
 }
 
 export const projectSlice = createSlice({
-    name:"project",
+    name: "project",
     initialState,
-    reducers:{
-        selectedItemNavBar:(state,action)=>{
-            state.selectedItem=action.payload
+    reducers: {
+        selectedItemNavBar: (state, action) => {
+            state.selectedItem = action.payload
         },
-        showProjectSection:(state,action)=>{
-            state.showProjects=true
-            state.showProjectById=action.payload
+        showProjectSection: (state, action) => {
+            state.showProjects = true
+            state.showProjectById = action.payload
         },
-        closeProjectPreview:(state)=>{
-            state.showProjects=false
+        closeProjectPreview: (state, action) => {
+            if (action.payload === 'Save') {
+                window.open('../../../public/Divyanshu_Sharma_Resume-1.png', '_blank')
+            }
+            state.showProjects = false
         }
-
     }
 })
 
-export const {selectedItemNavBar,showProjectSection,closeProjectPreview} = projectSlice.actions
+export const { selectedItemNavBar, showProjectSection, closeProjectPreview } = projectSlice.actions
 
 export default projectSlice.reducer

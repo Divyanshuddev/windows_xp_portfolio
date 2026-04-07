@@ -4,20 +4,17 @@ import SearchBar from "./SearchBar"
 import SocialLink from "./SocialLink"
 import { useSelector } from "react-redux"
 import type { RootState } from "../../store/store"
-
-const NavBar = ()=>{
-    const currentWidth = useSelector((state:RootState)=>state.windowresize.width)
-    console.log(currentWidth)
-    const styles ={
-    root:{
-            backgroundColor:"black",
-            bozSizing:"border-box",
-            width:currentWidth-30,
-            padding:2,
+const NavBar = () => {
+    const currentWidth = useSelector((state: RootState) => state.windowresize.width)
+    const styles = {
+        root: {
+            backgroundColor: "black",
+            bozSizing: "border-box",
+            width: currentWidth - 30,
+            padding: 2,
         }
     }
-
-    return(
+    return (
         <Stack sx={styles.root} direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
             <NavBarTitle />
             <SearchBar />

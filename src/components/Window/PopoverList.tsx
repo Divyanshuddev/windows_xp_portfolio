@@ -1,7 +1,6 @@
 import { Divider, Stack, Typography } from "@mui/material"
 import { useDispatch } from "react-redux";
 import { fileBarWindow } from "../../features/WindowSlice/WindowSlice";
-
 const styles={
     root:{
         backgroundColor:"#e9e9e9",

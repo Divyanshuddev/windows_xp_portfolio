@@ -12,7 +12,7 @@ const styles = {
     menu: {
         color: "black",
         fontSize: 12,
-        height:20,
+        height: 20,
         paddingLeft: 2,
         paddingRight: 2,
         "&:hover": {
@@ -32,21 +32,21 @@ const styles = {
         paddingRight: 1,
     }
 }
-interface MenuBarList{
-    title:string;
-    disable:boolean;
+interface MenuBarList {
+    title: string;
+    disable: boolean;
 }
-interface PopoverList{
-    menu:string;
-    active:boolean;
-    menuBarList:MenuBarList[];
+interface PopoverList {
+    menu: string;
+    active: boolean;
+    menuBarList: MenuBarList[];
 }
-interface FileBarProps{
-   maximized:()=>void;
-   minimized:()=>void;
-   popoverList:PopoverList[];
+interface FileBarProps {
+    maximized: () => void;
+    minimized: () => void;
+    popoverList: PopoverList[];
 }
-const Filebar = ({maximized,minimized,popoverList}:FileBarProps) => {
+const Filebar = ({ maximized, minimized, popoverList }: FileBarProps) => {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
     const [list, setList] = useState<MenuBarList[]>([]);
 
@@ -99,7 +99,7 @@ const Filebar = ({maximized,minimized,popoverList}:FileBarProps) => {
                                         },
                                     }}
                                 >
-                                    <PopoverList list={list} maximized={maximized} minimized={minimized}  />
+                                    <PopoverList list={list} maximized={maximized} minimized={minimized} />
                                 </Popover>
                             </Stack>
                         )

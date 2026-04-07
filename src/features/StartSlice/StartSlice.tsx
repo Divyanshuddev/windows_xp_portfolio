@@ -1,24 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export interface StartSliceState{
-    openStart:boolean
+export interface StartSliceState {
+    openStart: boolean
 }
 
-const initialState:StartSliceState={
-    openStart:false,
+const initialState: StartSliceState = {
+    openStart: false,
 }
 
 export const startSlice = createSlice({
-    name:"startButton",
+    name: "startButton",
     initialState,
-    reducers:{
-        openStart:(state)=>{
-            state.openStart=!state.openStart;
+    reducers: {
+        openStart: (state) => {
+            state.openStart = !state.openStart;
         },
     }
 })
 
-export const {openStart} = startSlice.actions
+export const { openStart } = startSlice.actions
 
 export default startSlice.reducer
 

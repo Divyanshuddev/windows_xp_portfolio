@@ -31,7 +31,7 @@ const styles = {
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
         width: "100%",
-        height: 720,
+        height: 750,
     },
     restartImage: {
         width: 30,
@@ -47,12 +47,10 @@ const styles = {
             }
         }
     }
-
-
 }
 const Login = () => {
     const dispatch = useDispatch();
-    const restartModal = useSelector((state:RootState)=>state.modal.restartModal);
+    const restartModal = useSelector((state: RootState) => state.modal.restartModal);
     return (
         <Stack sx={styles.root} position={'relative'}>
             <Stack sx={styles.bars} />
@@ -65,8 +63,8 @@ const Login = () => {
             </Stack>
             <Stack sx={styles.bar2} style={{ position: "absolute", bottom: 0 }} direction={'row'} alignItems={'center'} justifyContent={'space-between'}>
                 <Stack direction={'row'} alignItems={'center'} spacing={2} sx={styles.restartStack}>
-                    <IconButton onClick={()=>dispatch(openRestartModal())}>
-                    <Box component={'img'} src={restartImage} sx={styles.restartImage} className="restartIcon" />
+                    <IconButton onClick={() => dispatch(openRestartModal())}>
+                        <Box component={'img'} src={restartImage} sx={styles.restartImage} className="restartIcon" />
                     </IconButton>
                     <Typography>Restart Divyanshu XP</Typography>
                 </Stack>
@@ -79,5 +77,4 @@ const Login = () => {
         </Stack>
     )
 }
-
 export default Login

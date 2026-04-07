@@ -22,7 +22,7 @@ const data = [
     },
     {
         icon: aboutMeImage,
-        name: "About Me",
+        name: "About me",
         subName: "none",
         fontWeight: "none"
     },
@@ -65,8 +65,8 @@ const styles = {
             },
 
         },
-        backgroundColor:"transparent",
-        border:"none",
+        backgroundColor: "transparent",
+        border: "none",
     },
     name: {
         fontSize: 15,
@@ -84,7 +84,7 @@ const Overview = () => {
             {
                 data.map((value, index) => {
                     return (
-                        <Stack key={index} sx={styles.menuItemsStack} justifyContent={'center'} component={'button'} onClick={()=>dispatch(openWindow(value.name))}>
+                        <Stack key={index} sx={styles.menuItemsStack} justifyContent={'center'} component={'button'} onClick={() => dispatch(openWindow(value.name))}>
                             <Stack direction={'row'} alignItems={'center'} spacing={1} >
                                 <Box component={'img'} src={value.icon} sx={styles.icon} />
                                 <Stack>
@@ -94,7 +94,7 @@ const Overview = () => {
                                     }
                                 </Stack>
                             </Stack>
-                            
+
                         </Stack>
                     )
                 })

@@ -1,10 +1,7 @@
 import { Divider, Stack, } from "@mui/material"
 import RecentlyUsed from "./RecentlyUsed"
 import ConnectionList from "./ConnectionList"
-
-
 const Connect = () => {
-
     return (
         <Stack>
             <ConnectionList start={0} end={3} />
@@ -15,7 +12,6 @@ const Connect = () => {
         </Stack>
     )
 }
-
 export default Connect
 
 

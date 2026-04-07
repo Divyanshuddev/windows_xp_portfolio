@@ -2,11 +2,12 @@ import { Divider, Stack, Typography } from "@mui/material"
 import Header from "../Window/Header"
 import { useEffect, useRef, useState } from "react"
 import { currentWindowSize } from "../../features/WindowSlice/ResizeWindowSlice"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import imageViewIcon from '../../assets/photos.webp'
 import Filebar from "../Window/Filebar"
 import Addressbar from "../Window/Addressbar"
 import ImageContainer from "./ImageContainer"
+import type { RootState } from "../../store/store"
 const FilebarList = [
     {
         menu: "File",
@@ -34,7 +35,7 @@ const FilebarList = [
             }
         ]
     },
-     {
+    {
         menu: "Edit",
         active: false,
         menuBarList: [
@@ -110,26 +111,28 @@ interface ImageViewerWindowProps {
     containerRef: React.RefObject<HTMLDivElement | null>
     zIndex: number
     bringToFront: (id: number) => void
+    defaultPosition: { top: number; left: number };
 }
-const ImageViewerWindow = ({ id, containerRef, zIndex, bringToFront }: ImageViewerWindowProps) => {
+const ImageViewerWindow = ({ id, containerRef, zIndex, bringToFront, defaultPosition }: ImageViewerWindowProps) => {
     const boxRef = useRef<HTMLDivElement>(null)
     const headerRef = useRef<HTMLDivElement>(null)
     const dispatch = useDispatch();
     const isDragging = useRef(false)
     const dragOffset = useRef({ x: 0, y: 0 })
-
+    const minimizeImageViewerWindow = useSelector((state: RootState) => state.window.minimizeImageViewerWindow)
     const [isMaximized, setIsMaximized] = useState(false)
 
     const restoreState = useRef({
         width: DEFAULT_SIZE.width,
         height: DEFAULT_SIZE.height,
-        x: 120 * id,
-        y: 80 * id
-    })
-
-    const position = useRef({ x: 120 * id, y: 80 * id })
+        x: defaultPosition?.left ?? 150,
+        y: Math.max(defaultPosition?.top ?? 100, 100),
+    });
+    const position = useRef({
+        x: defaultPosition?.left ?? 150,
+        y: Math.max(defaultPosition?.top ?? 100, 100),
+    });
     const size = useRef({ width: DEFAULT_SIZE.width, height: DEFAULT_SIZE.height })
-
     const applyStyles = () => {
         const box = boxRef.current
         if (!box) return
@@ -141,18 +144,15 @@ const ImageViewerWindow = ({ id, containerRef, zIndex, bringToFront }: ImageView
         const currentHeight = size.current.height
         dispatch(currentWindowSize({ currentWidth, currentHeight }))
     }
-
     const maximize = () => {
         const container = containerRef.current
         if (!container || isMaximized) return
-
         restoreState.current = {
             width: size.current.width,
             height: size.current.height,
             x: position.current.x,
             y: position.current.y
         }
-
         size.current.width = container.clientWidth
         size.current.height = container.clientHeight - 31
         console.log(size.current.height)
@@ -162,7 +162,6 @@ const ImageViewerWindow = ({ id, containerRef, zIndex, bringToFront }: ImageView
         setIsMaximized(true)
         applyStyles()
     }
-
     const restore = () => {
         if (!isMaximized) return
 
@@ -174,12 +173,10 @@ const ImageViewerWindow = ({ id, containerRef, zIndex, bringToFront }: ImageView
         setIsMaximized(false)
         applyStyles()
     }
-
     const toggleResize = () => {
         bringToFront(id)
         isMaximized ? restore() : maximize()
     }
-
     useEffect(() => {
         applyStyles()
 
@@ -192,7 +189,6 @@ const ImageViewerWindow = ({ id, containerRef, zIndex, bringToFront }: ImageView
             isDragging.current = true
             dragOffset.current = { x: e.clientX, y: e.clientY }
         }
-
         const onMouseMove = (e: MouseEvent) => {
             if (!isDragging.current) return
             position.current.x += e.clientX - dragOffset.current.x
@@ -200,15 +196,12 @@ const ImageViewerWindow = ({ id, containerRef, zIndex, bringToFront }: ImageView
             dragOffset.current = { x: e.clientX, y: e.clientY }
             applyStyles()
         }
-
         const onMouseUp = () => {
             isDragging.current = false
         }
-
         header.addEventListener("mousedown", onMouseDown)
         window.addEventListener("mousemove", onMouseMove)
         window.addEventListener("mouseup", onMouseUp)
-
         return () => {
             header.removeEventListener("mousedown", onMouseDown)
             window.removeEventListener("mousemove", onMouseMove)
@@ -228,6 +221,7 @@ const ImageViewerWindow = ({ id, containerRef, zIndex, bringToFront }: ImageView
                 overflow: "hidden",
                 userSelect: "none",
                 zIndex,
+                display: minimizeImageViewerWindow ? "none" : "block"
             }}
         >
             <Stack
@@ -238,11 +232,11 @@ const ImageViewerWindow = ({ id, containerRef, zIndex, bringToFront }: ImageView
             </Stack>
             <Filebar maximized={maximize} minimized={restore} popoverList={FilebarList} />
             <Divider style={{ backgroundColor: "#F0F0F0", height: "0.005rem" }} />
-            <Addressbar />
+            <Addressbar title="Image Viewer" icon={imageViewIcon} />
             <ImageContainer />
             <Stack sx={styles.footer}>
-        <Typography sx={styles.footerText}>Learn More about Divyanshu</Typography>
-      </Stack>
+                <Typography sx={styles.footerText}>Learn More about Divyanshu</Typography>
+            </Stack>
         </Stack>
     )
 }

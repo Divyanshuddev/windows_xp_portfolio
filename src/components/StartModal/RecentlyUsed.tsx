@@ -17,8 +17,8 @@ const styles = {
             ".title": {
                 color: "white"
             },
-            ".arrow":{
-                color:"white"
+            ".arrow": {
+                color: "white"
             }
         },
         border: "none",
@@ -32,7 +32,7 @@ const styles = {
         color: "#262626"
     }
 }
-const RecentlyUsed  = ()=>{
+const RecentlyUsed = () => {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
     const [isHoveringPopover, setIsHoveringPopover] = useState(false);
 
@@ -49,55 +49,55 @@ const RecentlyUsed  = ()=>{
     };
     const open = Boolean(anchorEl);
 
-    return(
+    return (
         <Stack p={1}
-                direction={'row'}
-                alignItems={'center'}
-                justifyContent={'space-between'}
-                aria-owns={open ? 'mouse-over-popover' : undefined}
-                aria-haspopup="true"
-                onMouseEnter={handlePopoverOpen}
-                onMouseLeave={handlePopoverClose}
-            >
-                <Stack direction={'row'} alignItems={'center'} spacing={1} >
-                    <Box component={'img'} src={recentlyUsed} sx={styles.image} />
-                    <Typography className="title" sx={styles.title} style={{ fontFamily: "Roboto Condensed" }}>Recently Used</Typography>
-                </Stack>
-                <Stack  >
-                    <ArrowRightIcon sx={styles.arrorIcon} fontSize="small" className="arrow" />
-                </Stack>
-                <Popover
-                    id="mouse-over-popover"
-                    open={open}
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'right',
-                    }}
-                    transformOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'left',
-                    }}
-                    onClose={() => setAnchorEl(null)}
-                    disableRestoreFocus
-                    PaperProps={{
-                        onMouseEnter: () => setIsHoveringPopover(true),
-                        onMouseLeave: () => {
-                            setIsHoveringPopover(false);
-                            setAnchorEl(null);
-                        },
-                        sx: {
-                            paddingTop: 0.5,
-                            paddingBottom: 0.5,
-                            pointerEvents: 'auto',
-                            transition: 'opacity 0.2s ease',
-                            borderLeft: "2px solid #2f71cd"
-                        },
-                    }}
-                >
-                    <AllProgramsPopover type={"recentlyused"} />
-                </Popover>
+            direction={'row'}
+            alignItems={'center'}
+            justifyContent={'space-between'}
+            aria-owns={open ? 'mouse-over-popover' : undefined}
+            aria-haspopup="true"
+            onMouseEnter={handlePopoverOpen}
+            onMouseLeave={handlePopoverClose}
+        >
+            <Stack direction={'row'} alignItems={'center'} spacing={1} >
+                <Box component={'img'} src={recentlyUsed} sx={styles.image} />
+                <Typography className="title" sx={styles.title} style={{ fontFamily: "Roboto Condensed" }}>Recently Used</Typography>
             </Stack>
+            <Stack  >
+                <ArrowRightIcon sx={styles.arrorIcon} fontSize="small" className="arrow" />
+            </Stack>
+            <Popover
+                id="mouse-over-popover"
+                open={open}
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                }}
+                transformOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+                onClose={() => setAnchorEl(null)}
+                disableRestoreFocus
+                PaperProps={{
+                    onMouseEnter: () => setIsHoveringPopover(true),
+                    onMouseLeave: () => {
+                        setIsHoveringPopover(false);
+                        setAnchorEl(null);
+                    },
+                    sx: {
+                        paddingTop: 0.5,
+                        paddingBottom: 0.5,
+                        pointerEvents: 'auto',
+                        transition: 'opacity 0.2s ease',
+                        borderLeft: "2px solid #2f71cd"
+                    },
+                }}
+            >
+                <AllProgramsPopover type={"recentlyused"} />
+            </Popover>
+        </Stack>
     )
 }
 

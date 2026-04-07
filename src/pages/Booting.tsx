@@ -1,6 +1,8 @@
 import { Box, Stack, Typography } from "@mui/material"
 import logo from '../assets/logo.png'
 import Loader from "../components/Loader/Loader"
+import { useNavigate } from "react-router-dom"
+import { useEffect } from "react"
 const styles = {
     root: {
         width: "100%",
@@ -34,8 +36,14 @@ const styles = {
         fontStyle: "italic"
     }
 }
-
 const Booting = () => {
+    const navigate = useNavigate();
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            navigate("/login");
+        }, 5000);
+        return () => clearTimeout(timer);
+    }, []);
     return (
         <Stack sx={styles.root} justifyContent={'center'} alignItems={'center'} position={'relative'}>
             <Stack spacing={-3} >
@@ -57,5 +65,4 @@ const Booting = () => {
         </Stack>
     )
 }
-
 export default Booting

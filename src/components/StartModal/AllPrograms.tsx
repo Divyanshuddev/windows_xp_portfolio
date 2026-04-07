@@ -39,9 +39,7 @@ const AllPrograms = () => {
             }
         }, 100);
     };
-
     const open = Boolean(anchorEl);
-
     return (
         <Stack justifyContent={'center'} alignItems={'center'} sx={styles.root} position={'relative'}
             aria-owns={open ? 'mouse-over-popover' : undefined}

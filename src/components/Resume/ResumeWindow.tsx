@@ -1,6 +1,6 @@
 import { Divider, Stack, Typography } from "@mui/material"
 import { useEffect, useRef, useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { currentWindowSize } from "../../features/WindowSlice/ResizeWindowSlice"
 import Header from "../Window/Header"
 import resumeIcon from '../../assets/resume.webp'
@@ -11,6 +11,7 @@ import printIcon from '../../assets/print.webp'
 import contactIcon from '../../assets/contact (1).webp'
 import Actionbar from "../Window/Actionbar"
 import ResumePage from "./ResumePage"
+import type { RootState } from "../../store/store"
 const FilebarList = [
   {
     menu: "File",
@@ -59,31 +60,31 @@ const FilebarList = [
     ]
   }
 ]
-const ActionbarList=[
+const ActionbarList = [
   {
-    icon:zoomIcon,
-    name:"Zoom",
-    disable:false
+    icon: zoomIcon,
+    name: "Zoom",
+    disable: true
   },
   {
-    icon:saveIcon,
-    name:"Save",
-    disable:false
+    icon: saveIcon,
+    name: "Save",
+    disable: false
   },
   {
-    icon:printIcon,
-    name:"Print",
-    disable:true
+    icon: printIcon,
+    name: "Print",
+    disable: true
   },
   {
-    icon:contactIcon,
-    name:"Contact Me",
-    disable:false
+    icon: contactIcon,
+    name: "Contact Me",
+    disable: false
   }
 ]
 const styles = {
   root: {
-    background:"#A4A29A",
+    background: "#A4A29A",
     flexGrow: 1,
     borderRadius: 0,
     paddingTop: 0
@@ -113,7 +114,6 @@ const styles = {
     fontWeight: 600,
     width: "100%",
   },
-  
 }
 const DEFAULT_SIZE = { width: 800, height: 750 }
 
@@ -122,27 +122,28 @@ interface ResumeWindowProps {
   containerRef: React.RefObject<HTMLDivElement | null>
   zIndex: number
   bringToFront: (id: number) => void
+  defaultPosition: { top: number; left: number };
 }
-
-const ResumeWindow = ({ id, containerRef, zIndex, bringToFront }: ResumeWindowProps) => {
+const ResumeWindow = ({ id, containerRef, zIndex, bringToFront, defaultPosition }: ResumeWindowProps) => {
   const boxRef = useRef<HTMLDivElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
   const dispatch = useDispatch();
   const isDragging = useRef(false)
   const dragOffset = useRef({ x: 0, y: 0 })
-
+  const minimizeResumeWindow = useSelector((state: RootState) => state.window.minimizeResumeWindow)
   const [isMaximized, setIsMaximized] = useState(false)
-
   const restoreState = useRef({
     width: DEFAULT_SIZE.width,
     height: DEFAULT_SIZE.height,
-    x: 120 * id,
-    y: 80 * id
-  })
+    x: defaultPosition?.left ?? 150,
+    y: Math.max(defaultPosition?.top ?? 100, 100),
+  });
 
-  const position = useRef({ x: 120 * id, y: 80 * id })
+  const position = useRef({
+    x: defaultPosition?.left ?? 150,
+    y: Math.max(defaultPosition?.top ?? 100, 100),
+  });
   const size = useRef({ width: DEFAULT_SIZE.width, height: DEFAULT_SIZE.height })
-
   const applyStyles = () => {
     const box = boxRef.current
     if (!box) return
@@ -241,6 +242,7 @@ const ResumeWindow = ({ id, containerRef, zIndex, bringToFront }: ResumeWindowPr
         overflow: "hidden",
         userSelect: "none",
         zIndex,
+        display: minimizeResumeWindow ? "none" : "block"
       }}
     >
       <Stack
@@ -250,10 +252,10 @@ const ResumeWindow = ({ id, containerRef, zIndex, bringToFront }: ResumeWindowPr
         <Header onToggleResize={toggleResize} title={"My Resume"} icon={resumeIcon} />
       </Stack>
       <Stack sx={styles.root}>
-      <Filebar maximized={maximize} minimized={restore} popoverList={FilebarList} />
-      <Divider style={{ backgroundColor: "#F0F0F0", height: "0.005rem" }} />
-      <Actionbar list={ActionbarList} />
-      <ResumePage />
+        <Filebar maximized={maximize} minimized={restore} popoverList={FilebarList} />
+        <Divider style={{ backgroundColor: "#F0F0F0", height: "0.005rem" }} />
+        <Actionbar list={ActionbarList} />
+        <ResumePage />
       </Stack>
       <Stack sx={styles.footer}>
         <Typography sx={styles.footerText}>Learn More about Divyanshu</Typography>
@@ -261,7 +263,6 @@ const ResumeWindow = ({ id, containerRef, zIndex, bringToFront }: ResumeWindowPr
     </Stack>
   )
 }
-
 export default ResumeWindow
 
 

@@ -4,7 +4,6 @@ import shutdownImage from '../../assets/shutdown.webp'
 import { useDispatch } from "react-redux"
 import { openLogoffModal, openShutDownModal } from "../../features/ModalSlice/ModalSlice"
 import { openStart } from "../../features/StartSlice/StartSlice"
-
 const styles = {
     image: {
         width: 28,
@@ -42,5 +41,4 @@ const Logoff = () => {
         </Stack>
     )
 }
-
 export default Logoff
