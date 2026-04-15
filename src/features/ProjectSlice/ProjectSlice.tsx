@@ -24,7 +24,7 @@ export const projectSlice = createSlice({
         },
         closeProjectPreview: (state, action) => {
             if (action.payload === 'Save') {
-                window.open('../../../public/Divyanshu_Sharma_Resume-1.png', '_blank')
+                window.open('https://drive.google.com/file/d/1DHnYxWIXCfEaSc4k-QlTQpowC01FokBa/view?usp=sharing', '_blank')
             }
             state.showProjects = false
         }
