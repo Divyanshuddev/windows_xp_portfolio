@@ -199,6 +199,9 @@ export const windowSlice = createSlice({
                 case 'New Message':
                     state.newMessage = true
                     return
+                case 'Save':
+                    window.open('https://drive.google.com/file/d/1DHnYxWIXCfEaSc4k-QlTQpowC01FokBa/view?usp=sharing', '_blank')
+                    return
                 default:
                     return
             }
